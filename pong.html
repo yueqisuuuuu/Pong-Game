@@ -22,7 +22,7 @@ const PADDLE_HEIGHT = 100;
 
 function calculateMousePos(evt){
 	var rect = canvas.getBoundingClientRect();
-	var root = rocument.documentElement;
+	var root = document.documentElement;
 	var mouseX = evt.clientX - rect.left - root.scrollLeft;
 	var mouseY = evt.clientY - rect.top - root.scrollTop;
 	return {
@@ -40,6 +40,14 @@ window.onload = function(){
 		moveEverything();
 		drawEverything();
 	}, 1000/framesPerSecond);
+
+	// addEventListener --> mousemove, mouseclick, keypress, etc.
+	canvas.addEventListener('mousemove',
+		function(evt){
+			var mousePos = calculateMousePos(evt);
+			// set mouse to center of paddle
+			paddle1Y = mousePos.y - (PADDLE_HEIGHT/2);
+		});
 }
 
 function moveEverything(){
