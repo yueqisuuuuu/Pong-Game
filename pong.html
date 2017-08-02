@@ -152,7 +152,12 @@ function drawEverything(){
 
 	if(pause){
 		canvasContext.fillStyle = 'white';
-		if (player1Score >= WIN || player2Score >= WIN){
+		if (player1Score >= WIN){
+			canvasContext.fillText("You Win!", canvas.width/2-80, canvas.height/2-100);
+			canvasContext.fillText("Start Again", canvas.width/2-100, canvas.height/2);
+		}
+		else if (player2Score >= WIN){
+			canvasContext.fillText("Computer Wins!", canvas.width/2-140, canvas.height/2-100);
 			canvasContext.fillText("Start Again", canvas.width/2-100, canvas.height/2);
 		}
 		else{
