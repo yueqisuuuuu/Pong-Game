@@ -19,7 +19,7 @@ var ballSpeedY = 4;
 
 var player1Score = 0;
 var player2Score = 0;
-const WIN = 3;
+const WIN = 10;
 
 var pause = true;
 
@@ -125,7 +125,8 @@ function moveEverything(){
 		}
 	}
 
-	if (ballY > (canvas.height - 10) || ballY < 0) {			ballSpeedY = -ballSpeedY;
+	if (ballY > (canvas.height - 10) || ballY < 0) {			
+		ballSpeedY = -ballSpeedY;
 	}
 }
 
@@ -152,7 +153,7 @@ function drawEverything(){
 	if(pause){
 		canvasContext.fillStyle = 'white';
 		if (player1Score >= WIN || player2Score >= WIN){
-			canvasContext.fillText("Start Again", canvas.width/2-60, canvas.height/2);
+			canvasContext.fillText("Start Again", canvas.width/2-100, canvas.height/2);
 		}
 		else{
 			canvasContext.fillText("START", canvas.width/2-60, canvas.height/2);
