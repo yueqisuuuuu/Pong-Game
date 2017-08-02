@@ -5,14 +5,13 @@
 
 </head>
 
-<body id="gameCanvas" width="800" height="600">
-	<p id="textArea" style="margin: auto; text-align: center; font-size: 40px; font-family: Futura; color: white;"></p>
-</body>
+<canvas id="gameCanvas" width="800" height="600">
+	
+</canvas>
 
 <script>
 var canvas;
 var canvasContext;
-var canvasText;
 var ballX = 0;
 var ballY = 0;
 var ballSpeedX = 10;
@@ -28,12 +27,6 @@ var paddle1Y = 250;
 var paddle2Y = 250;
 const PADDLE_WIDTH = 10;
 const PADDLE_HEIGHT = 100;
-
-var mode;
-const EASY = 6;
-const MID = 8;
-const HARD = 10;
-const EXTREME = 12;
 
 /*
  * function calculateMousePos(evt)
@@ -71,8 +64,7 @@ function mouseClick(evt){
 window.onload = function(){
 	canvas = document.getElementById('gameCanvas');
 	canvasContext = canvas.getContext('2d');
-	canvasContext.font = "60px Futura";
-	canvasText = document.getElementById('textArea');
+	canvasContext.font = "40px Futura";
 
 	// initial ball starting position
 	ballX = canvas.width/2;
@@ -123,11 +115,12 @@ function ballReset(){
 function computerMovement(){
 	var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);
 	// ballY - 30 --> avoid unnessary calculations and movement
-	if(paddle2YCenter < ballY - 35){
-		paddle2Y += mode;
+	// note: for easy mode do -35 and +=6
+	if(paddle2YCenter < ballY - 30){
+		paddle2Y += 8;
 	}
-	else if(paddle2YCenter > ballY + 35){
-		paddle2Y -= mode;
+	else if(paddle2YCenter > ballY + 30){
+		paddle2Y -= 8;
 	}
 }
 
@@ -208,24 +201,17 @@ function drawEverything(){
 
 	// stuff before this will show when paused
 	if(pause){
-		//canvasContext.fillStyle = 'white';
+		canvasContext.fillStyle = 'white';
 		if (player1Score >= WIN){
-			canvasText.innerHTML = "You Win! </br> Start Again";
-			/*
 			canvasContext.fillText("You Win!", canvas.width/2-80, canvas.height/2-100);
 			canvasContext.fillText("Start Again", canvas.width/2-100, canvas.height/2);
-			*/
 		}
 		else if (player2Score >= WIN){
-			canvasText.innerHTML = "Computer Win! </br> Start Again";
-			/*
 			canvasContext.fillText("Computer Wins!", canvas.width/2-140, canvas.height/2-100);
 			canvasContext.fillText("Start Again", canvas.width/2-100, canvas.height/2);
-			*/
 		}
 		else{
-			canvasText.innerHTML = "START";
-			//canvasContext.fillText("START", canvas.width/2-60, canvas.height/2);
+			canvasContext.fillText("START", canvas.width/2-60, canvas.height/2);
 		}
 		return;
 	}
