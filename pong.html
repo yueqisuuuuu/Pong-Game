@@ -12,8 +12,8 @@
 <script>
 var canvas;
 var canvasContext;
-var ballX = 50;
-var ballY = 50;
+var ballX = 0;
+var ballY = 0;
 var ballSpeedX = 10;
 var ballSpeedY = 4;
 
@@ -28,6 +28,13 @@ var paddle2Y = 250;
 const PADDLE_WIDTH = 10;
 const PADDLE_HEIGHT = 100;
 
+/*
+ * function calculateMousePos(evt)
+ *
+ * Event Listener that captures mouse position and movement
+ * Return mouse position on X and Y axis
+ *
+ */
 function calculateMousePos(evt){
 	var rect = canvas.getBoundingClientRect();
 	var root = document.documentElement;
@@ -39,6 +46,13 @@ function calculateMousePos(evt){
 	}
 }
 
+/*
+ * function mouseClick(evt)
+ *
+ * Event Listener that captures mouse click event
+ * Start/Restart game
+ *
+ */
 function mouseClick(evt){
 	if(pause){
 		player1Score = 0;
@@ -51,6 +65,11 @@ window.onload = function(){
 	canvas = document.getElementById('gameCanvas');
 	canvasContext = canvas.getContext('2d');
 	canvasContext.font = "40px Futura";
+
+	// initial ball starting position
+	ballX = canvas.width/2;
+	ballY = canvas.height/2;
+
 	var framesPerSecond = 30;
 	// timer for how long (in ms) to wait between each drawEverything function call
 	setInterval(function(){
@@ -58,7 +77,6 @@ window.onload = function(){
 		drawEverything();
 	}, 1000/framesPerSecond);
 
-	// addEventListener --> mousemove, mouseclick, keypress, etc.
 	canvas.addEventListener('mousedown', mouseClick);
 
 	canvas.addEventListener('mousemove',
@@ -69,6 +87,14 @@ window.onload = function(){
 		});
 }
 
+/*
+ * function ballReset()
+ *
+ * Reset ball when either player win or score
+ * If score --> change ball direction, restart ball in center, reset speed
+ * If win --> pause game, rest same as score
+ *
+ */
 function ballReset(){
 	if (player1Score >= WIN || player2Score >= WIN){
 		pause = true;
@@ -79,16 +105,33 @@ function ballReset(){
 	ballSpeedY = 4;
 }
 
+/*
+ * function computerMovement()
+ *
+ * Automated computer movement
+ * Look for ball Y axis position and move paddle in direction towards ball
+ *
+ */
 function computerMovement(){
 	var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);
-	if(paddle2YCenter < ballY - 35){
-		paddle2Y += 6;
+	// ballY - 30 --> avoid unnessary calculations and movement
+	// note: for easy mode do -35 and +=6
+	if(paddle2YCenter < ballY - 30){
+		paddle2Y += 8;
 	}
-	else if(paddle2YCenter > ballY + 35){
-		paddle2Y -= 6;
+	else if(paddle2YCenter > ballY + 30){
+		paddle2Y -= 8;
 	}
 }
 
+/*
+ * function moveEverything()
+ *
+ * If pause, stop all movements
+ * Else, start computer and ball movement
+ *	change ball direction when hit top/bottom edge or paddles, else reset ball position
+ *
+ */
 function moveEverything(){
 	if(pause){
 		return;
@@ -114,7 +157,7 @@ function moveEverything(){
 	if (ballX > (canvas.width - 10)){
 		if (ballY > paddle2Y && ballY < paddle2Y+PADDLE_HEIGHT){
 			ballSpeedX = -ballSpeedX;
-
+			// change ball return angle depends on position hit
 			var centerY = ballY - (paddle2Y+PADDLE_HEIGHT/2);
 			ballSpeedY = centerY * 0.35;
 		}
@@ -136,6 +179,12 @@ function drawNet(){
 	}
 }
 
+/*
+ * function drawEverything()
+ *
+ * Draw canvas, paddles, scores, ball, net and display message if paused
+ *
+ */
 function drawEverything(){
 	// canvas
 	colorRect(0,0,canvas.width, canvas.height, 'black');
@@ -150,6 +199,7 @@ function drawEverything(){
 	canvasContext.fillText(player1Score, 100, 100);
 	canvasContext.fillText(player2Score, canvas.width - 100, 100);
 
+	// stuff before this will show when paused
 	if(pause){
 		canvasContext.fillStyle = 'white';
 		if (player1Score >= WIN){
@@ -165,14 +215,13 @@ function drawEverything(){
 		}
 		return;
 	}
-
+	// stuff after this will not show when paused
+	
+	// net
 	drawNet();
 
 	// ball
-	colorCircle(ballX, ballY, 10, 'white');
-
-	
-
+	colorCircle(ballX, ballY, 10, 'white');	
 }
 
 function colorCircle(centerX, centerY, radius, drawColor){
@@ -189,7 +238,6 @@ function colorRect(leftX, topY, width, height, drawColor){
 	// fillRect(start x, start y, end x, end y)
 	canvasContext.fillRect(leftX, topY, width, height);
 }
-
 
 </script>
 
