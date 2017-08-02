@@ -116,10 +116,11 @@ function computerMovement(){
 	var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);
 	// ballY - 30 --> avoid unnessary calculations and movement
 	// note: for easy mode do -35 and +=6
-	if(paddle2YCenter < ballY - 30){
+	// medium 8 hard 10 extreme 12
+	if(paddle2YCenter < ballY - 35){
 		paddle2Y += 8;
 	}
-	else if(paddle2YCenter > ballY + 30){
+	else if(paddle2YCenter > ballY + 35){
 		paddle2Y -= 8;
 	}
 }
