@@ -28,6 +28,8 @@ var paddle2Y = 250;
 const PADDLE_WIDTH = 10;
 const PADDLE_HEIGHT = 100;
 
+var framesPerSecond = 30;
+
 /*
  * function calculateMousePos(evt)
  *
@@ -70,11 +72,15 @@ window.onload = function(){
 	ballX = canvas.width/2;
 	ballY = canvas.height/2;
 
-	var framesPerSecond = 30;
 	// timer for how long (in ms) to wait between each drawEverything function call
 	setInterval(function(){
 		moveEverything();
 		drawEverything();
+		// change speed
+		if (framesPerSecond < 200 && pause == false){
+			framesPerSecond += 0.1;
+		}
+		console.log(framesPerSecond);
 	}, 1000/framesPerSecond);
 
 	canvas.addEventListener('mousedown', mouseClick);
@@ -103,6 +109,7 @@ function ballReset(){
 	ballX = canvas.width/2;
 	ballY = canvas.height/2;
 	ballSpeedY = 4;
+	framesPerSecond = 30;
 }
 
 /*
