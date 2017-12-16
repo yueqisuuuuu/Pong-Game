@@ -19,9 +19,10 @@ var ballSpeedY = 4;
 
 var player1Score = 0;
 var player2Score = 0;
-const WIN = 10;
+const WIN = 3;
 
 var pause = true;
+var newGame = true;
 
 var paddle1Y = 250;
 var paddle2Y = 250;
@@ -52,14 +53,20 @@ function calculateMousePos(evt){
  * function mouseClick(evt)
  *
  * Event Listener that captures mouse click event
- * Start/Restart game
+ * Start/Pause/Restart game
  *
  */
 function mouseClick(evt){
 	if(pause){
-		player1Score = 0;
-		player2Score = 0;
+		if (newGame == true){
+			player1Score = 0;
+			player2Score = 0;
+			newGame = false;
+		}
 		pause = false;
+	}
+	else{
+		pause = true;
 	}
 }
 
@@ -213,13 +220,18 @@ function drawEverything(){
 		if (player1Score >= WIN){
 			canvasContext.fillText("You Win!", canvas.width/2-80, canvas.height/2-100);
 			canvasContext.fillText("Start Again", canvas.width/2-100, canvas.height/2);
+			newGame = true;
 		}
 		else if (player2Score >= WIN){
 			canvasContext.fillText("Computer Wins!", canvas.width/2-140, canvas.height/2-100);
 			canvasContext.fillText("Start Again", canvas.width/2-100, canvas.height/2);
+			newGame = true;
+		}
+		else if (newGame == true) {
+			canvasContext.fillText("START", canvas.width/2-60, canvas.height/2);
 		}
 		else{
-			canvasContext.fillText("START", canvas.width/2-60, canvas.height/2);
+			canvasContext.fillText("RESUME", canvas.width/2-60, canvas.height/2);
 		}
 		return;
 	}
