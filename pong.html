@@ -19,7 +19,7 @@ var ballSpeedY = 4;
 
 var player1Score = 0;
 var player2Score = 0;
-const WIN = 3;
+const WIN = 5;
 
 var pause = true;
 var newGame = true;
@@ -129,13 +129,13 @@ function ballReset(){
 function computerMovement(){
 	var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);
 	// ballY - 30 --> avoid unnessary calculations and movement
-	// note: for easy mode do -35 and +=6
-	// medium 8 hard 10 extreme 12
+	// note: to change computer speed
+	// easy 6 medium 8 hard 10 extreme 12
 	if(paddle2YCenter < ballY - 35){
-		paddle2Y += 8;
+		paddle2Y += 7;
 	}
 	else if(paddle2YCenter > ballY + 35){
-		paddle2Y -= 8;
+		paddle2Y -= 7;
 	}
 }
 
@@ -144,7 +144,7 @@ function computerMovement(){
  *
  * If pause, stop all movements
  * Else, start computer and ball movement
- *	change ball direction when hit top/bottom edge or paddles, else reset ball position
+ * change ball direction when hit top/bottom edge or paddles, else reset ball position
  *
  */
 function moveEverything(){
